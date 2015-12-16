@@ -10,7 +10,7 @@ repositories {
 }
 
 dependencies {
-
+    compile 'com.sun.xml.bind:jaxb-impl:2.2.11'
     testCompile 'junit:junit:4.11'
 }
 
