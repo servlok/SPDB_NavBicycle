@@ -10,12 +10,11 @@ repositories {
 }
 
 dependencies {
-    compile 'com.sun.xml.bind:jaxb-impl:2.2.11'
+    compile 'com.sun.xml.bind:2.2.10-b140310.1920'
     testCompile 'junit:junit:4.11'
 }
 
 version = '1.0'
-
 
 task wrapper(type: Wrapper) {
     gradleVersion = '2.3'
