@@ -1,0 +1,32 @@
+1. zainstaluj postgresql w wersji 9.4
+2. zainstaluj wtyczkę do niego w postgis
+3. zainstaluj pgadmin3
+4. ustaw sobie hasło do postgresql bo u mnie nie było żadnego i musiałem jakies ustawić
+aby to zrobić wpisałem
+sudo -u postgres psql postgres
+a potem w konsoli psql
+\password postgres
+i masz ustawione haslo "postgres"
+na koncu wychodzisz poleceniem
+\q
+5. odpalasz pgadmina
+6. klikasz we wtyczke i laczysz sie z localhostem
+host: localhost, username: postgres, haslo: postgres, nazwa: localhost
+7. rozwijasz menu i klikasz prawym na "Bazy danych" i w menu kontekstowym wybierasz opcje "Nowa baza danych..."
+8. nazywasz ja "nav_bicycle"
+9. klikasz na nia w menu dwa razy i otwierasz konsole SQL (lupka na gornym menu)
+10. w nowym oknie wpisujesz 
+CREATE EXTENSION postgis
+i odpalasz zielonym guzikiem
+11. wprowadz komende
+CREATE TABLE IF NOT EXISTS verturilo_stations (
+  id SERIAL PRIMARY KEY,
+  name text DEFAULT NULL,
+  uid integer DEFAULT NULL
+);
+SELECT AddGeometryColumn ('public','verturilo_stations','geom',4326,'POINT',2);
+i odpal zielonym guzikiem
+
+
+INSERT INTO public.verturilo_stations(name,uid,geom)
+VALUES('1',2,ST_GeomFromText('POINT(1 1)', 4326))
