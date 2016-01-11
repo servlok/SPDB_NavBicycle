@@ -1,11 +1,8 @@
 package com.navbicycle.osrm;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
 import com.navbicycle.osrm.model.Coordinate;
 import com.navbicycle.osrm.model.RouterResponse;
-import com.oracle.tools.packager.IOUtils;
 
-import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
@@ -14,7 +11,6 @@ import java.net.URI;
 import java.net.URL;
 import java.net.URLConnection;
 import java.util.List;
-import java.util.stream.Collectors;
 
 /**
  * Created by marcinstepnowski on 07.01.2016.

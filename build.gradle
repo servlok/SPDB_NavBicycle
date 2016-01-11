@@ -17,6 +17,8 @@ dependencies {
     compile 'io.mikael:urlbuilder:2.0.5'
     testCompile 'junit:junit:4.11'
 
+    compile 'postgresql:postgresql:9.1-901-1.jdbc4'
+
     compile (
             [group: 'com.fasterxml.jackson.core', name: 'jackson-core', version: '2.6.4'],
             [group: 'com.fasterxml.jackson.core', name: 'jackson-annotations', version: '2.6.4'],
