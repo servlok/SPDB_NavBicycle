@@ -4,11 +4,12 @@ package com.navbicycle.veturilo.model;
  * Created by marcinstepnowski on 16.12.2015.
  */
 
-import javax.xml.bind.annotation.*;
+import javax.xml.bind.annotation.XmlAccessType;
+import javax.xml.bind.annotation.XmlAccessorType;
+import javax.xml.bind.annotation.XmlAttribute;
 
 @XmlAccessorType(XmlAccessType.FIELD)
 public class Place {
-
     @XmlAttribute(name = "uid")
     private int id;
 
@@ -25,16 +26,32 @@ public class Place {
         return id;
     }
 
+    public void setId(int id) {
+        this.id = id;
+    }
+
     public float getLattitude() {
         return lattitude;
+    }
+
+    public void setLattitude(float lattitude) {
+        this.lattitude = lattitude;
     }
 
     public float getLongtitude() {
         return longtitude;
     }
 
+    public void setLongtitude(float longtitude) {
+        this.longtitude = longtitude;
+    }
+
     public String getName() {
         return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
     }
 
     @Override
