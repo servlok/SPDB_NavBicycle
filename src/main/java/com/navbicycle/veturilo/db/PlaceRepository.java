@@ -8,20 +8,38 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class PlaceRepository {
-    public List<Place> findAll() throws SQLException {
-        Connection connection = DriverManager.getConnection(
+
+    private Connection getConnection() throws SQLException{
+        return DriverManager.getConnection(
                 DBUtil.DB_CONNECTION,
                 DBUtil.DB_USER,
                 DBUtil.DB_PASSWORD
         );
+    }
+
+    public List<Place> findAll() throws SQLException {
+        Connection connection = getConnection();
 
         Statement statement = connection.createStatement();
 
         ResultSet rs = statement.executeQuery(DBUtil.FIND_ALL_PLACE_SQL);
-
         connection.close();
 
         return createPlacesFromResultSet(rs);
+    }
+
+    public Place findNereast(double lattitude, double longtitude) throws SQLException{
+        Connection connection = getConnection();
+
+        PreparedStatement statement = connection.prepareStatement(DBUtil.FIND_NEAREST_PLACE_SQL);
+        statement.setDouble(1, lattitude);
+        statement.setDouble(2, longtitude);
+
+        ResultSet rs = statement.executeQuery();
+        connection.close();   
+
+        List<Place> placeList = createPlacesFromResultSet(rs);
+        return placeList.size() > 0 ? placeList.get(0) : null;
     }
 
     private List<Place> createPlacesFromResultSet(ResultSet rs) throws SQLException {

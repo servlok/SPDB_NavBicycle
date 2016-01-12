@@ -17,7 +17,7 @@ public class GraphStationCreator {
     public DirectedWeightedMultigraph<Place, DefaultWeightedEdge> createGraph(List<Place> places) {
 
         DirectedWeightedMultigraph<Place, DefaultWeightedEdge> graph =
-                new DirectedWeightedMultigraph<Place, DefaultWeightedEdge>(DefaultWeightedEdge.class);
+                new DirectedWeightedMultigraph<>(DefaultWeightedEdge.class);
 
         for (Place place : places) {
             graph.addVertex(place);
@@ -46,7 +46,7 @@ public class GraphStationCreator {
     }
 
     private List<Coordinate> convertPlacesToCoordinates(List<Place> places) {
-        List<Coordinate> coordinates = new ArrayList<Coordinate>();
+        List<Coordinate> coordinates = new ArrayList<>();
         for (Place place : places) {
             coordinates.add(this.convertPlaceToCoordinate(place));
         }
