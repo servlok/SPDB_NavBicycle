@@ -77,4 +77,14 @@ public class Place {
         return result;
     }
 
+    @Override
+    public String toString() {
+        return "Place{" +
+                "id=" + id +
+                ", lattitude=" + lattitude +
+                ", longtitude=" + longtitude +
+                ", name='" + name + '\'' +
+                '}';
+    }
+
 }

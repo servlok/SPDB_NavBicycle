@@ -15,4 +15,9 @@ public final class DBUtil {
             "by verturilo_stations.geom <-> 'SRID=3005;POINT(? ?)'::geometry" +
             "limit 1;";
 
+    public static final String FIND_ALL_BETWEEN_POINTS =
+            "select uid,name,ST_X(geom),ST_Y(geom) " +
+                    "from verturilo_stations " +
+                    "where ST_Contains(ST_MakeEnvelope(?, ?, ?, ?, 4326),geom)";
+
 }
