@@ -3,16 +3,16 @@ package com.navbicycle.domain;
 import java.util.List;
 
 public class RoutePoints {
-    private List<VerturiloStation> verturiloStations;
+    private List<VeturiloStation> veturiloStations;
     private List<Double> costs;
 
-    public RoutePoints(List<VerturiloStation> verturiloStations, List<Double> costs) {
-        this.verturiloStations = verturiloStations;
+    public RoutePoints(List<VeturiloStation> veturiloStations, List<Double> costs) {
+        this.veturiloStations = veturiloStations;
         this.costs = costs;
     }
 
-    public List<VerturiloStation> getVerturiloStations() {
-        return verturiloStations;
+    public List<VeturiloStation> getVeturiloStations() {
+        return veturiloStations;
     }
 
     public List<Double> getCosts() {

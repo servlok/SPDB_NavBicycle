@@ -68,6 +68,7 @@ public class Place {
 
     }
 
+
     @Override
     public int hashCode() {
         int result = id;
@@ -75,16 +76,6 @@ public class Place {
         result = 31 * result + (longtitude != +0.0f ? Float.floatToIntBits(longtitude) : 0);
         result = 31 * result + name.hashCode();
         return result;
-    }
-
-    @Override
-    public String toString() {
-        return "Place{" +
-                "id=" + id +
-                ", lattitude=" + lattitude +
-                ", longtitude=" + longtitude +
-                ", name='" + name + '\'' +
-                '}';
     }
 
 }

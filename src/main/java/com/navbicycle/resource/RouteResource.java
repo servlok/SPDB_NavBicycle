@@ -2,7 +2,7 @@ package com.navbicycle.resource;
 
 import com.google.common.collect.Lists;
 import com.navbicycle.domain.*;
-import com.navbicycle.veturilo.db.PlaceRepository;
+import com.navbicycle.veturilo.db.VeturiloStationRepository;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -13,10 +13,10 @@ import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 @RequestMapping("route")
-public class VerturiloStationPathResource {
+public class RouteResource {
 
     private static String PLACE_SQL_EXCEPTION_MESSAGE = "Problem with database connection";
-    private PlaceRepository placeRepository = new PlaceRepository();
+    private VeturiloStationRepository veturiloStationRepository = new VeturiloStationRepository();
 
     @RequestMapping(method = RequestMethod.GET, produces = "application/json;charset=utf-8")
     public ResponseEntity<?> get(@RequestParam double startLat, @RequestParam double startLng,
@@ -33,9 +33,18 @@ public class VerturiloStationPathResource {
         Route route = new Route(beginEndRoute,
                 new RoutePoints(
                         Lists.newArrayList(
-                                new VerturiloStation(beginEndRoute.getStart(), "ul. Andersa - ul. Muranowska"),
-                                new VerturiloStation(beginEndRoute.getStart(), "al. Jana Pawła II - ul. Stawki"),
-                                new VerturiloStation(beginEndRoute.getStart(), "ul. Świętokrzyska - Sezam")
+                                new VeturiloStation.Builder()
+                                        .point(beginEndRoute.getStart())
+                                        .name("ul. Andersa - ul. Muranowska")
+                                        .build(),
+                                new VeturiloStation.Builder()
+                                        .point(beginEndRoute.getStart())
+                                        .name("al. Jana Pawła II - ul. Stawki")
+                                        .build(),
+                                new VeturiloStation.Builder()
+                                        .point(beginEndRoute.getStart())
+                                        .name("ul. Świętokrzyska - Sezam")
+                                        .build()
                         ),
                         Lists.newArrayList(0.5, (double) 2)
                 ));

@@ -2,7 +2,7 @@ package com.navbicycle;
 
 import com.navbicycle.graphStation.GraphStationCreator;
 import com.navbicycle.osrm.model.Coordinate;
-import com.navbicycle.resource.VerturiloStationPathResource;
+import com.navbicycle.resource.RouteResource;
 import com.navbicycle.veturilo.PlaceProvider;
 import com.navbicycle.veturilo.model.Place;
 import org.jgrapht.alg.DijkstraShortestPath;
@@ -46,7 +46,7 @@ public class Application {
 
     public Set<Class<?>> getClasses() {
         Set<Class<?>> s = new HashSet<Class<?>>();
-        s.add(VerturiloStationPathResource.class);
+        s.add(RouteResource.class);
         return s;
     }
 }
