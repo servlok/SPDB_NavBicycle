@@ -2,6 +2,7 @@ package com.navbicycle;
 
 import com.navbicycle.graphStation.GraphStationCreator;
 import com.navbicycle.osrm.model.Coordinate;
+import com.navbicycle.resource.VerturiloStationPathResource;
 import com.navbicycle.veturilo.PlaceProvider;
 import com.navbicycle.veturilo.model.Place;
 import org.jgrapht.alg.DijkstraShortestPath;
@@ -9,7 +10,9 @@ import org.jgrapht.graph.DefaultWeightedEdge;
 import org.jgrapht.graph.DirectedWeightedMultigraph;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 public class Application {
@@ -39,5 +42,11 @@ public class Application {
         System.out.println(path);
 
 
+    }
+
+    public Set<Class<?>> getClasses() {
+        Set<Class<?>> s = new HashSet<Class<?>>();
+        s.add(VerturiloStationPathResource.class);
+        return s;
     }
 }

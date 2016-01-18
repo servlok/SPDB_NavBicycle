@@ -1,19 +1,38 @@
 apply plugin: 'java'
 apply plugin: 'eclipse'
 apply plugin: 'idea'
+apply plugin: 'jetty'
+apply plugin: 'war'
+apply plugin: 'spring-boot'
 
 
 sourceCompatibility = 1.8
+
+buildscript {
+    ext {
+        springBootVersion = '1.3.2.BUILD-SNAPSHOT'
+    }
+    repositories {
+        mavenCentral()
+        maven { url "https://repo.spring.io/snapshot" }
+        maven { url "https://repo.spring.io/milestone" }
+    }
+    dependencies {
+        classpath("org.springframework.boot:spring-boot-gradle-plugin:${springBootVersion}")
+    }
+}
 
 repositories {
     mavenCentral()
     maven {
         url "https://jcenter.bintray.com/"
     }
+    maven { url "https://repo.spring.io/snapshot" }
+    maven { url "https://repo.spring.io/milestone" }
 }
 
 dependencies {
-    compile 'com.sun.xml.bind:2.2.10'
+    compile 'com.sun.xml.bind:jaxb-impl:2.2.10'
     compile 'io.mikael:urlbuilder:2.0.5'
     compile 'org.jgrapht:jgrapht-core:0.9.1'
     testCompile 'junit:junit:4.11'
@@ -25,6 +44,13 @@ dependencies {
             [group: 'com.fasterxml.jackson.core', name: 'jackson-annotations', version: '2.6.4'],
             [group: 'com.fasterxml.jackson.core', name: 'jackson-databind', version: '2.6.4']
     )
+
+    compile('org.springframework.boot:spring-boot-starter')
+    compile("org.springframework.boot:spring-boot-starter-web")
+    compile("org.springframework.boot:spring-boot-starter-actuator")
+    testCompile('org.springframework.boot:spring-boot-starter-test')
+
+    compile 'com.google.guava:guava:19.0'
 }
 
 version = '1.0'
