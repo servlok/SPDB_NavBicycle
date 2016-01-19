@@ -10,6 +10,22 @@ public class VeturiloStation extends Point {
         this.uid = builder.uid;
     }
 
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        VeturiloStation that = (VeturiloStation) o;
+
+        return uid == that.uid;
+
+    }
+
+    @Override
+    public int hashCode() {
+        return uid;
+    }
+
     public String getName() {
         return name;
     }

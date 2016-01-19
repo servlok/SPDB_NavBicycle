@@ -19,7 +19,7 @@ public class DistanceMatrixProvider {
             ObjectMapper mapper = new ObjectMapper();
             return mapper.readValue(url, RouterResponse.class);
         } catch (IOException e) {
-            return null;
+            throw new IllegalStateException("Błąd z pobieraniem macierzy połączeń Reason: " + e.getMessage());
         }
     }
 }

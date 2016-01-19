@@ -8,6 +8,7 @@ import com.navbicycle.utils.CoordinatesUtil;
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Properties;
 
 import static java.lang.Double.max;
 import static java.lang.Math.min;
@@ -19,6 +20,19 @@ public class VeturiloStationRepository {
                 DBUtil.DB_CONNECTION,
                 DBUtil.DB_USER,
                 DBUtil.DB_PASSWORD
+        );
+    }
+
+    private Connection getDebugConnection() throws SQLException {
+        Properties props = new Properties();
+        props.setProperty("user", DBUtil.DB_USER);
+        props.setProperty("password", DBUtil.DB_PASSWORD);
+        props.setProperty("loglevel", String.valueOf(org.postgresql.Driver.DEBUG));
+
+
+        return DriverManager.getConnection(
+                DBUtil.DB_CONNECTION,
+                props
         );
     }
 
@@ -37,8 +51,7 @@ public class VeturiloStationRepository {
         Connection connection = getConnection();
 
         PreparedStatement statement = connection.prepareStatement(DBUtil.FIND_NEAREST_PLACE_SQL);
-        statement.setDouble(1, lattitude);
-        statement.setDouble(2, longtitude);
+        statement.setString(1, DBUtil.formatPoint(longtitude, lattitude));
 
         ResultSet rs = statement.executeQuery();
         connection.close();
@@ -48,12 +61,12 @@ public class VeturiloStationRepository {
     }
 
     public List<VeturiloStation> findAllInRectangleBetweenPoints(Point start, Point end) throws SQLException {
-        Vertices v = calculateMins(start, end);
+        Vertices v = calculateMinsMaxs(start, end);
         return executeQueryFindBetweenPointsAndMapData(v);
     }
 
     public List<VeturiloStation> findAllInRectangleBetweenPoints(Point start, Point end, float offsetFraction) throws SQLException {
-        Vertices v = calculateMins(start, end);
+        Vertices v = calculateMinsMaxs(start, end);
 
         Vertices vOffset = new Vertices();
 
@@ -61,7 +74,7 @@ public class VeturiloStationRepository {
         double distanceBetweenX = v.x_max - v.x_min;
 
         vOffset.y_min = v.y_min - offsetFraction * distanceBetweenY;
-        vOffset.x_max = v.y_max + offsetFraction * distanceBetweenY;
+        vOffset.y_max = v.y_max + offsetFraction * distanceBetweenY;
         vOffset.x_min = v.x_min - offsetFraction * distanceBetweenX;
         vOffset.x_max = v.x_max + offsetFraction * distanceBetweenX;
 
@@ -69,12 +82,12 @@ public class VeturiloStationRepository {
     }
 
     public List<VeturiloStation> findAllInRectangleBetweenPoints(Point start, Point end, int offsetInMeters) throws SQLException {
-        Vertices v = calculateMins(start, end);
+        Vertices v = calculateMinsMaxs(start, end);
 
         Vertices vOffset = new Vertices();
 
         vOffset.y_min = v.y_min - CoordinatesUtil.calculateOffsetLat(offsetInMeters);
-        vOffset.x_max = v.y_max + CoordinatesUtil.calculateOffsetLat(offsetInMeters);
+        vOffset.y_max = v.x_max + CoordinatesUtil.calculateOffsetLat(offsetInMeters);
         vOffset.x_min = v.x_min - CoordinatesUtil.calculateOffsetLng(v.y_min, offsetInMeters);
         vOffset.x_max = v.x_max + CoordinatesUtil.calculateOffsetLng(v.y_max, offsetInMeters);
 
@@ -89,7 +102,7 @@ public class VeturiloStationRepository {
         return createPlacesFromResultSet(rs);
     }
 
-    private Vertices calculateMins(Point start, Point end) {
+    private Vertices calculateMinsMaxs(Point start, Point end) {
         Vertices v = new Vertices();
         v.y_min = min(start.getLat(), end.getLat());
         v.y_max = max(start.getLat(), end.getLat());
