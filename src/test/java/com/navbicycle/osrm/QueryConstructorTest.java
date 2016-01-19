@@ -3,7 +3,6 @@ package com.navbicycle.osrm;
 import com.navbicycle.osrm.model.Coordinate;
 import org.junit.Test;
 
-import java.net.URI;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
@@ -23,7 +22,7 @@ public class QueryConstructorTest {
 
         URL url = QueryConstructor.urlWithCoordinates(coordinates);
         String string = url.toString();
-        assertEquals("http://router.project-osrm.org/table?" +
+        assertEquals("http://localhost:5000/table?" +
                 "loc=52.230165%2C21.012618&loc=52.231436%2C21.021379",string);
 
     }

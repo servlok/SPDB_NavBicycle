@@ -87,7 +87,7 @@ public class VeturiloStationRepository {
         Vertices vOffset = new Vertices();
 
         vOffset.y_min = v.y_min - CoordinatesUtil.calculateOffsetLat(offsetInMeters);
-        vOffset.y_max = v.x_max + CoordinatesUtil.calculateOffsetLat(offsetInMeters);
+        vOffset.y_max = v.y_max + CoordinatesUtil.calculateOffsetLat(offsetInMeters);
         vOffset.x_min = v.x_min - CoordinatesUtil.calculateOffsetLng(v.y_min, offsetInMeters);
         vOffset.x_max = v.x_max + CoordinatesUtil.calculateOffsetLng(v.y_max, offsetInMeters);
 

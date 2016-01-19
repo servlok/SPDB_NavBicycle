@@ -50,7 +50,7 @@ public class RoutePointsFinder {
 
         for (WeightedVeturiloStationsPath edge : edges) {
             stations.add(edge.getTarget());
-            costs.add(edge.getWeight());
+            costs.add(edge.getCost());
         }
 
         return new RoutePoints(stations, costs);

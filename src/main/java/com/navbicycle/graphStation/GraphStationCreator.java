@@ -14,6 +14,8 @@ import java.util.List;
  */
 public class GraphStationCreator {
 
+    protected static double GRAPH_WEIGHT_DELTA = 0.001;
+
     public DirectedWeightedMultigraph<VeturiloStation, WeightedVeturiloStationsPath> createGraph(List<VeturiloStation> stations) {
 
         DirectedWeightedMultigraph<VeturiloStation, WeightedVeturiloStationsPath> graph =
@@ -54,20 +56,18 @@ public class GraphStationCreator {
     }
 
     protected double calculateCost(int seconds) {
-        int minutes = seconds / 60;
         int cost;
-        if(minutes < 20) {
+        if (seconds <= 1200) {
             cost = 0;
         } else {
             cost = 1;
-            int hours = minutes / 60;
-            for (int i = 1; i < hours ; i++) {
+            for (int i = 3600; i < seconds; i += 3600) {
                 switch (i) {
-                    case 1:
+                    case 3600:
                         cost += 3;
                         break;
 
-                    case 2:
+                    case 7200:
                         cost += 5;
                         break;
 
@@ -80,6 +80,6 @@ public class GraphStationCreator {
 
         }
 
-        return (double) cost;
+        return (double) cost + GRAPH_WEIGHT_DELTA;
     }
 }

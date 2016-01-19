@@ -22,4 +22,8 @@ public class WeightedVeturiloStationsPath extends DefaultWeightedEdge {
     public double getWeight() {
         return super.getWeight();
     }
+
+    public double getCost() {
+        return this.getWeight() - GraphStationCreator.GRAPH_WEIGHT_DELTA;
+    }
 }

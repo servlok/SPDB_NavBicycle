@@ -4,9 +4,7 @@ import com.navbicycle.osrm.model.Coordinate;
 import io.mikael.urlbuilder.UrlBuilder;
 
 import java.net.MalformedURLException;
-import java.net.URI;
 import java.net.URL;
-import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -14,8 +12,12 @@ import java.util.List;
  */
 public class QueryConstructor {
 
+    private static String LOCAL_ROUTER_URL = "http://localhost:5000";
+
+    private static String ROUTER_URL = "http://router.project-osrm.org";
+
     static URL urlWithCoordinates(List<Coordinate> coordinates) {
-        UrlBuilder builder = UrlBuilder.fromString("http://router.project-osrm.org/table");
+        UrlBuilder builder = UrlBuilder.fromString(LOCAL_ROUTER_URL + "/table");
         for (Coordinate coordinate : coordinates) {
             String string = coordinate.getLattitude() + "," + coordinate.getLongtitude();
             builder =  builder.addParameter("loc", string);
