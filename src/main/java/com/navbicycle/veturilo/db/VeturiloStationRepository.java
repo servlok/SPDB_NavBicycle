@@ -6,9 +6,7 @@ import com.navbicycle.sql.DBUtil;
 import com.navbicycle.utils.CoordinatesUtil;
 
 import java.sql.*;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Properties;
+import java.util.*;
 
 import static java.lang.Double.max;
 import static java.lang.Math.min;
@@ -58,6 +56,23 @@ public class VeturiloStationRepository {
 
         List<VeturiloStation> stations = createPlacesFromResultSet(rs);
         return stations.size() > 0 ? stations.get(0) : null;
+    }
+
+    public Map<Integer, Double> findAllDistanceBetweenTargetStationAndOtherStations(VeturiloStation target) throws SQLException {
+        Connection connection = getConnection();
+        PreparedStatement statement = connection.prepareStatement(
+                DBUtil.FIND_ALL_DISTANCE_BETWEEN_TARGET_STATION_AND_OTHER_STATIONS);
+        statement.setInt(1, target.getUid());
+
+        ResultSet rs = statement.executeQuery();
+        connection.close();
+
+        Map<Integer, Double> distanceStations = new HashMap<>();
+        while (rs.next()) {
+            distanceStations.put(rs.getInt("uid"), rs.getDouble("dist"));
+        }
+
+        return distanceStations;
     }
 
     public List<VeturiloStation> findAllInRectangleBetweenPoints(Point start, Point end) throws SQLException {

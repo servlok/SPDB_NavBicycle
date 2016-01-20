@@ -8,15 +8,17 @@ import org.jgrapht.graph.DirectedWeightedMultigraph;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 /**
  * Created by marcinstepnowski on 11.01.2016.
  */
 public class GraphStationCreator {
 
-    protected static double GRAPH_WEIGHT_DELTA = 0.001;
+    protected static double GRAPH_WEIGHT_DELTA = 0.01;
 
-    public DirectedWeightedMultigraph<VeturiloStation, WeightedVeturiloStationsPath> createGraph(List<VeturiloStation> stations) {
+    public DirectedWeightedMultigraph<VeturiloStation, WeightedVeturiloStationsPath> createGraph(List<VeturiloStation> stations,
+                                                                                                 Map<Integer, Double> distanceStations) {
 
         DirectedWeightedMultigraph<VeturiloStation, WeightedVeturiloStationsPath> graph =
                 new DirectedWeightedMultigraph<>(WeightedVeturiloStationsPath.class);
@@ -34,7 +36,9 @@ public class GraphStationCreator {
                 if(i != j) {
                     WeightedVeturiloStationsPath edge = graph.addEdge(stations.get(i), stations.get(j));
                     int seconds = distanceMatrix.get(i).get(j).intValue() / 10;
-                    graph.setEdgeWeight(edge, this.calculateCost(seconds));
+                    edge.setAdditionalCost(GRAPH_WEIGHT_DELTA * distanceStations.get(stations.get(j).getUid()));
+                    graph.setEdgeWeight(edge, this.calculateCost(seconds,
+                            distanceStations.get(stations.get(j).getUid())));
                 }
             }
         }
@@ -55,7 +59,7 @@ public class GraphStationCreator {
         return coordinates;
     }
 
-    protected double calculateCost(int seconds) {
+    protected double calculateCost(int seconds, Double dist) {
         int cost;
         if (seconds <= 1200) {
             cost = 0;
@@ -80,6 +84,6 @@ public class GraphStationCreator {
 
         }
 
-        return (double) cost + GRAPH_WEIGHT_DELTA;
+        return (double) cost + GRAPH_WEIGHT_DELTA * dist;
     }
 }

@@ -20,6 +20,11 @@ public final class DBUtil {
                     "from verturilo_stations " +
                     "where ST_Covers(ST_MakeEnvelope(?, ?, ?, ?, 4326),geom)";
 
+
+    public static final String FIND_ALL_DISTANCE_BETWEEN_TARGET_STATION_AND_OTHER_STATIONS =
+            "select uid, ST_DISTANCE(geom,(select geom from verturilo_stations where uid=? )) as dist " +
+                    "from verturilo_stations";
+
     //potrzeba takiej metody
     //http://www.postgresql.org/message-id/CAH7T-apf-tXft3=y91AwnybTNcvcsUtMdP1DAmtbDj+jgwZpJg@mail.gmail.com
     public static String formatPoint(double lon, double lat) {

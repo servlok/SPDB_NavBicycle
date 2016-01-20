@@ -8,6 +8,16 @@ import org.jgrapht.graph.DefaultWeightedEdge;
  */
 public class WeightedVeturiloStationsPath extends DefaultWeightedEdge {
 
+    private double additionalCost;
+
+    public double getAdditionalCost() {
+        return additionalCost;
+    }
+
+    public void setAdditionalCost(double additionalCost) {
+        this.additionalCost = additionalCost;
+    }
+
     @Override
     public VeturiloStation getSource() {
         return (VeturiloStation) super.getSource();
@@ -24,6 +34,6 @@ public class WeightedVeturiloStationsPath extends DefaultWeightedEdge {
     }
 
     public double getCost() {
-        return this.getWeight() - GraphStationCreator.GRAPH_WEIGHT_DELTA;
+        return this.getWeight() - additionalCost;
     }
 }

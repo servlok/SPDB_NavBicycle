@@ -12,6 +12,7 @@ import org.jgrapht.graph.DirectedWeightedMultigraph;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 /**
  * Created by servlok on 18.01.16.
@@ -19,6 +20,8 @@ import java.util.List;
 public class RoutePointsFinder {
 
     private static final float OFFSET_FRACTION = 0.1f;
+    private static final float OFFSET = 1000;
+
     private VeturiloStationRepository veturiloStationRepository = new VeturiloStationRepository();
 
     public RoutePoints findRouteBetweenPoint(Point start, Point end) throws SQLException {
@@ -26,18 +29,28 @@ public class RoutePointsFinder {
         VeturiloStation endingStation = veturiloStationRepository.findNereast(end.getLat(), end.getLng());
 
         List<VeturiloStation> availableStations = veturiloStationRepository.findAllInRectangleBetweenPoints(
-                startingStation, endingStation, OFFSET_FRACTION
+                startingStation, endingStation, OFFSET
         );
 
+        if (availableStations.isEmpty())
+            return createEmptyRoutePoints();
+
         GraphStationCreator graphStationCreator = new GraphStationCreator();
+
+        Map<Integer, Double> distanceStations = veturiloStationRepository
+                .findAllDistanceBetweenTargetStationAndOtherStations(endingStation);
         DirectedWeightedMultigraph<VeturiloStation, WeightedVeturiloStationsPath> graph =
-                graphStationCreator.createGraph(availableStations);
+                graphStationCreator.createGraph(availableStations, distanceStations);
 
         List<WeightedVeturiloStationsPath> edges = DijkstraShortestPath.findPathBetween(
                 graph, startingStation, endingStation
         );
 
         return createRoutePoints(edges);
+    }
+
+    private RoutePoints createEmptyRoutePoints() {
+        return new RoutePoints(new ArrayList<>(), new ArrayList<>());
     }
 
     private RoutePoints createRoutePoints(List<WeightedVeturiloStationsPath> edges) {
